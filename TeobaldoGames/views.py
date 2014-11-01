@@ -1,6 +1,7 @@
 from TeobaldoGames import app
+from flask import render_template
 
 @app.route('/')
 @app.route('/home')
 def home():
-    return 'Home - Teobaldo Games.'
+    return render_template('base.html')
