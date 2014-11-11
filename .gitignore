@@ -1,2 +1,6 @@
-*.pyc
-*.py[code]
+*.py[co]
+#virtualenv
+/bin/*
+/include/*
+/local/*
+/lib/*
