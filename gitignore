@@ -1,6 +1,6 @@
 *.py[co]
 #virtualenv
-bin
-include
-local
-lib
+/bin/*
+/include/*
+/local/*
+/lib/*
