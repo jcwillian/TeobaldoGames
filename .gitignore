@@ -4,3 +4,5 @@
 /include/*
 /local/*
 /lib/*
+/db_repository/*
+*.db
