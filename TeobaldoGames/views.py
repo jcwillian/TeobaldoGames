@@ -35,8 +35,8 @@ def login():
 							title='Sign In',
 							form = form)
 
-@app.route('/Cadastro', methods=['GET', 'POST'])
-def cadastro():
+@app.route('/singup', methods=['GET', 'POST'])
+def singup():
 	form = CadastroForm()
 	if form.validate_on_submit():
 		user = Usuario(nomeUsuario=form.nomeUsuario.data,
