@@ -15,6 +15,8 @@ class User(db.Model):
     coin = db.Column(db.Integer)
     detonados = db.relationship('Detonado', backref='author', lazy='dynamic')
     games = db.relationship('Game', backref='own', lazy='dynamic')
+    buy = db.relationship('Purchase', backref='buyer', lazy='dynamic')
+    sales = db.relationship('Sale', backref='buyer', lazy='dynamic')
     followed = db.relationship('User',
                                 secondary= followers,
                                 primaryjoin=(followers.c.follower_id == id),
@@ -56,7 +58,7 @@ class Detonado(db.Model):
     title = db.Column(db.String(80))
     body = db.Column(db.String(140))
     data = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     feedback = db.relationship('Feedback', backref='author', lazy='dynamic')
     def __repr__(self):
         return '<Detonado %r>' % (self.body)
@@ -76,10 +78,12 @@ class Game(db.Model):
     description = db.Column(db.String(1000))
     price = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    bought = db.Column(db.Integer, db.ForeignKey('item_of_purchase.id'))
     data = db.Column(db.DateTime)
 
     def __repr__(self):
-        return 'Jogo --> %r' %(self.nome)
+        return 'Jogo --> %r' %(self.name)
+
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     items_of_purchase = db.relationship('Item_of_purchase', backref='buy', lazy='dynamic')
@@ -88,4 +92,12 @@ class Purchase(db.Model):
 
 class Item_of_purchase(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    game = db.relationship('Game', backref='buy')
+    game = db.relationship('Game', backref='bu')
+    purchase = db.Column(db.Integer, db.ForeignKey('purchase.id'))
+    seller = db.Column(db.Integer, db.ForeignKey('sale.id'))
+
+class Sale(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    data = db.Column(db.DateTime)
+    items_of_purchase = db.relationship('Item_of_purchase', backref='purchaser', lazy='dynamic')

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{%  block content %}
+	<ul>
+		{% if lista %}
+			{% for game in games %}
+				<li> {{ game.name }}</li>
+				<li> {{ game.description }}</li>
+				<li> {{ game.price }}</li>
+				<li> {{ game.data }}</li>
+				<hr>
+			{% endfor %}
+		{% else %}
+			<li> {{ games.name }}</li>
+			<li> {{ games.description }}</li>
+			<li> {{ games.price }}</li>
+			<li> {{ games.data }}</li>
+		{% endif %}
+	</ul>
+{% endblock %} 

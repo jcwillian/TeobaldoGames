@@ -1,13 +1,27 @@
 from flask_wtf import Form 
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, TextAreaField, FloatField
 from wtforms.validators import DataRequired, Email
 
 class LoginForm(Form):
-	username = StringField('username', validators=[DataRequired()])
+	nickname = StringField('nickname', validators=[DataRequired()])
 	password = PasswordField('password', validators=[DataRequired()])
 
 class CadastroForm(Form):
-	nomeUsuario = StringField('nomeUsuario', validators=[DataRequired()])
-	username = StringField('username', validators=[DataRequired()])
-	email = StringField('emal', validators=[Email(message='Email invalido')])
-	senha = PasswordField('senha', validators=[DataRequired()])
+	name = StringField('name', validators=[DataRequired()])
+	nickname = StringField('nickname', validators=[DataRequired()])
+	email = StringField('email', validators=[Email(message='Email invalido')])
+	password = PasswordField('New Password', 
+        validators=[DataRequired()])
+
+class AddDetonadoForm(Form):
+	title = StringField('title', validators=[DataRequired()])
+	body = TextAreaField('body')
+
+class FeedbackForm(Form):
+	message = TextAreaField('message')
+
+class GameForm(Form):
+	name = StringField('name', validators=[DataRequired()])
+	description = TextAreaField('description')
+	price = FloatField('price', validators=[DataRequired()])
+

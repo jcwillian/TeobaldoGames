@@ -1,8 +1,9 @@
 from TeobaldoGames import app, db, login_manager
 from flask import render_template, flash, redirect, session, url_for, request, g 
-from .forms import LoginForm, CadastroForm
-from models import User
+from .forms import LoginForm, CadastroForm, GameForm, AddDetonadoForm, FeedbackForm
+from models import User, Detonado, Game
 from flask.ext.login import login_user, logout_user, current_user, login_required
+import datetime
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -30,13 +31,13 @@ def home():
 def login():
 	form = LoginForm()
 	if form.validate_on_submit():
-		user = User.query.filter_by(username=str(form.username.data)).first()
+		user = User.query.filter_by(nickname=str(form.nickname.data)).first()
 		if user == None:
 			return render_template('login.html', 
 							title='Sign In',
 							form = form)
 			
-		if user.senha == form.password.data:
+		if user.password == form.password.data:
 			login_user(user, remember=True)
 			return redirect(url_for('home'))
 
@@ -48,14 +49,14 @@ def login():
 def singup():
 	form = CadastroForm()
 	if form.validate_on_submit():
-		user = Usuario(nomeUsuario=form.nomeUsuario.data,
-						username=form.username.data,
+		user = User(name=form.name.data,
+						nickname=form.nickname.data,
 						email=form.email.data,
-						senha=form.senha.data)
+						password=form.password.data)
 		try:
 			db.session.add(user)
 			db.session.commit()
-			session['username'] = form.username.data
+			session['nickname'] = form.nickname.data
 		except:
 			print('Erro no banco de dados')
 			return redirect(url_for('singup'))
@@ -66,15 +67,15 @@ def singup():
 @login_required
 def logout():
 	logout_user()
-	'''session['username'] = '''
+	'''session['nickname'] = '''
 	return redirect(url_for('home'))
 
-@app.route('/user/<username>')
+@app.route('/user/<nickname>')
 @login_required
-def user(username):
-	user = User.query.filter_by(username=username).first()
+def user(nickname):
+	user = User.query.filter_by(nickname=nickname).first()
 	if user == None:
-		flash('Usuario %s nao encontrado.' %(username))
+		flash('Usuario %s nao encontrado.' %(nickname))
 		return redirect(url_for('home'))
 	detonados = [
 		{'author': user, 'body':'Teste detonado 1'},
@@ -83,3 +84,44 @@ def user(username):
 	return render_template('user.html',
 							user=user,
 							detonados=detonados)
+@app.route('/addgame', methods=['GET', 'POST'])
+@login_required
+def addgame():
+	form = GameForm()
+	if form.validate_on_submit():
+		game = Game(name = form.name.data,
+						    description = form.description.data,
+						    price = float(form.price.data),
+							data = datetime.datetime.utcnow(),
+							own = g.user)
+		db.session.add(game)
+		db.session.commit()
+		return redirect(url_for('home'))
+	return render_template('addGame.html',
+							title = 'Add Game',
+							form = form)
+
+@app.route('/mylistgames')
+@login_required
+def mylistgames():
+	games = g.user.games.all()
+	return render_template('mylistgames.html', title='My list game', games = games)
+
+@app.route('/game')
+@app.route('/game/<name>')
+@app.route('/game/<name>/<int:id>')
+def game(name = None, id = None):
+	if name and id:
+		games = Game.query.get(id)
+		lista = False
+	elif name:
+		games = Game.query.filter_by(name=name).all()
+		lista = True
+	else:
+		return redirect(url_for('home'))
+
+	return render_template('game.html', 
+								title=name,
+								games = games,
+								lista = lista)
+

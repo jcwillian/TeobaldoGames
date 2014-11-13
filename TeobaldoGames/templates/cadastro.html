@@ -4,8 +4,8 @@
 	<form action="" method="post" name="cadastro">
 		{{ form.hidden_tag() }}
 		<p>
-			Nome: {{ form.nomeUsuario(size=50) }}<br>
-			{% for error in form.nomeUsuario.errors %}
+			Nome: {{ form.name(size=50) }}<br>
+			{% for error in form.name.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
 		</p>
@@ -19,15 +19,15 @@
 		</p>
 
 		<p>
-			Username: {{ form.username(size=30) }}<br>
-			{% for error in form.username.errors %}
+			Username: {{ form.nickname(size=30) }}<br>
+			{% for error in form.nickname.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
 		</p>
 
 		<p>
-			Password: {{ form.senha(size=30) }}<br>
-			{% for error in form.senha.errors %}
+			Password: {{ form.password(size=30) }}<br>
+			{% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
 		</p>

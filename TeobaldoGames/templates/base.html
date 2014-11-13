@@ -21,8 +21,10 @@
                     <ul class="menu">
                         <li><a href="{{ url_for('home') }}">HOME</a></li>
                         {% if g.user.is_authenticated() %}
-                            <li><a href="{{ url_for('user', username=g.user.username) }}">PROFILE</a></li>
+                            <li><a href="{{ url_for('user', nickname=g.user.nickname) }}">PROFILE</a></li>
                             <li><a href="{{ url_for('logout') }}">LOGOUT</a></li>
+                            <li><a href="{{ url_for('addgame') }}">ADD GAME</a></li>
+                            <li><a href="{{ url_for('mylistgames') }}">MY LIST GAME</a></li>
                         {% else %}
                             <li><a href="{{ url_for('login') }}">LOGIN</a></li>
                             <li><a href="{{ url_for('singup') }}">SIGN UP</a></li>
