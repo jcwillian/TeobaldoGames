@@ -1,8 +1,17 @@
 from TeobaldoGames import app, db, login_manager
 from flask import render_template, flash, redirect, session, url_for, request, g 
 from .forms import LoginForm, CadastroForm
-from models import Usuario
+from models import User
 from flask.ext.login import login_user, logout_user, current_user, login_required
+
+@app.errorhandler(404)
+def not_found_error(error):
+	return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+	db.session.rollback()
+	return render_template('500.html'), 500
 
 @app.before_request
 def before_request():
@@ -10,7 +19,7 @@ def before_request():
 
 @login_manager.user_loader
 def load_user(userid):
-	return Usuario.query.get(int(userid))
+	return User.query.get(int(userid))
 
 @app.route('/')
 @app.route('/home')
@@ -21,7 +30,7 @@ def home():
 def login():
 	form = LoginForm()
 	if form.validate_on_submit():
-		user = Usuario.query.filter_by(username=str(form.username.data)).first()
+		user = User.query.filter_by(username=str(form.username.data)).first()
 		if user == None:
 			return render_template('login.html', 
 							title='Sign In',
@@ -49,7 +58,7 @@ def singup():
 			session['username'] = form.username.data
 		except:
 			print('Erro no banco de dados')
-			return redirect(url_for('Cadastro'))
+			return redirect(url_for('singup'))
 		return redirect(url_for('home'))
 	return render_template('cadastro.html', form=form)
 
@@ -63,7 +72,7 @@ def logout():
 @app.route('/user/<username>')
 @login_required
 def user(username):
-	user = Usuario.query.filter_by(username=username).first()
+	user = User.query.filter_by(username=username).first()
 	if user == None:
 		flash('Usuario %s nao encontrado.' %(username))
 		return redirect(url_for('home'))
