@@ -1,33 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Configurando o titulo da pagina-->
     {% if title %}
     <title>{{ title }}</title>
     {% else %}
+    <!-- Se não for informando o titulo sera usado um padrão-->
     <title> TeobaldoGames</title>
     {% endif %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
+<!--         Corpo da pagina        -->
 <body>
-    <div class="Top">
-    <h1> TB - TeobaldoGames</h1>
-    </div>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-            <li>{{ message }} </li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-     <div>Usuario:
-        <a href="{{ url_for('home') }}">Home</a>
-        {% if g.user.is_authenticated() %}
-        | <a href="{{ url_for('user', username=g.user.username) }}">Your Profile</a>
-        | <a href="{{ url_for('logout') }}">Logout</a>
-        {% endif %}
-    </div>
-    <div class="Content">
+    <!-- Configurando topo -->
+    <header>
+        <div class="container">
+            <h1 class="logo"> TeobaldoGames</h1>
+            <strong>
+                <nav>
+                    <ul class="menu">
+                        <li><a href="{{ url_for('home') }}">HOME</a></li>
+                        {% if g.user.is_authenticated() %}
+                            <li><a href="{{ url_for('user', username=g.user.username) }}">PROFILE</a></li>
+                            <li><a href="{{ url_for('logout') }}">LOGOUT</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('login') }}">LOGIN</a></li>
+                            <li><a href="{{ url_for('singup') }}">SIGN UP</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </strong>
+        </div>
+    </header>
+    <!-- Fim da configuração do topo  -->
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }} </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    
         {% block content %}
 
         {% endblock %}
