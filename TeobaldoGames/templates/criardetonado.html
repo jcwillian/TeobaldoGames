@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+	<h1>Criar Detonado</h1>
+	<form action="" method="post" name="criardetonado">
+		{{ form.hidden_tag() }}
+		<p>
+			Title: {{ form.title(size=50) }}<br>
+			{% for error in form.title.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+		</p>
+
+		
+		<p>
+			Body: {{ form.body(size=5000) }}<br>
+			{% for error in form.body.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+		</p>
+		<p><input type="submit" value="Criar Detonado"></p>
+	</form>
+{% endblock %}
