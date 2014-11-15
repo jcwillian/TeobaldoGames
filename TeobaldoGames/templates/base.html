@@ -8,7 +8,12 @@
     <!-- Se não for informando o titulo sera usado um padrão-->
     <title> TeobaldoGames</title>
     {% endif %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
+    <link href="/static/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/dist/css/bootstrap-responsive.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/dist/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <!--         Corpo da pagina        -->
 <body>
@@ -16,6 +21,7 @@
     <header>
         <div class="container">
             <h1 class="logo"> TeobaldoGames</h1>
+            
             <strong>
                 <nav>
                     <ul class="menu">
@@ -33,9 +39,15 @@
                 </nav>
             </strong>
         </div>
+        <div class="search-game">
+            <form action="{{ url_for('game')}}" method="post" name="searchgame">
+                {{ g.form.words(size=50)}}        
+                <input type="submit" value="search games">
+            </form>
+        </div>
     </header>
     <!-- Fim da configuração do topo  -->
-    <div class="container">
+    <div class="body">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <ul>

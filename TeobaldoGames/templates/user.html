@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<table>
-      <tr valign="top">
-          <td><img src="{{ user.avatar(128) }}"></td>
-          <td><h1>User: {{ user.username }}</h1></td>
-      </tr>
-  	</table>
-	<hr>
-	{% for detonado in detonados %}
-		{% include "detonado.html" %}
-	{% endfor %}
+		<div class='user'>
+      	  {% if user.photo %}
+          <img src="{{ url_for('static', filename='uploads_images/'+ user.photo) }}">
+          {% else %}
+          <img src="{{ url_for('static', filename='uploads_images/default.png') }}">
+          {% endif %}
+          <h1>User: {{ user.username }}</h1>
+          <p>Total Coins = {{ user.coin}} </p>
+        </div>
 {% endblock %}

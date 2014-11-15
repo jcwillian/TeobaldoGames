@@ -1,0 +1,20 @@
+<div class = "game">
+	<!-- Titulo do jogo -->
+	<div class="title-game"> <a href="{{ url_for('game', name= game.name, id=game.id)}}">{{ game.name }} </a></div>
+	<!-- Imagem do jogo-->
+	<div class="img-game"> 
+		{% if game.photo %}
+			<img src="{{ url_for('static', filename='uploads_images/'+ game.photo) }}">
+		{% else %}
+			<img src="{{ url_for('static', filename='uploads_images/default.jpg') }}">
+		{% endif %}
+	</div>
+	
+	<div class="price-game">Coins {{ game.price }}</div>
+	<div class="own-game"><a href="{{ url_for('user', nickname=game.own.nickname)}}"> Own {{ game.own.nickname }} </div>
+	<div class="see-game">
+		<form action="{{ url_for('game', name = game.name, id = game.id)}}">
+			<input type="submit" value="See Game">
+		</form>
+	</div>
+</div>

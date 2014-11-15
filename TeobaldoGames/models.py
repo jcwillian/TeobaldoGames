@@ -9,6 +9,7 @@ followers = db.Table('followers',
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), index=True)
+    photo = db.Column(db.String(100))
     nickname = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password = db.Column(db.String(30))
@@ -53,6 +54,8 @@ class User(db.Model):
             return self
     def is_following(self, user):
         return self.followed.filter(followers.c.followed_id == user.id).coutn() > 0
+    def followed_posts(self):
+        return Game.query.join(followers, (followers.c.followed_id == Game.user_id)).filter(followers.c.follower_id == self.id).order_by(Game.data.desc())
 class Detonado(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     title = db.Column(db.String(80))
@@ -80,6 +83,7 @@ class Game(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     bought = db.Column(db.Integer, db.ForeignKey('item_of_purchase.id'))
     data = db.Column(db.DateTime)
+    photo = db.Column(db.String(100))
 
     def __repr__(self):
         return 'Jogo --> %r' %(self.name)

@@ -3,11 +3,7 @@
 {%  block content %}
 	<ul>
 		{% for game in games %}
-		<li><a href="{{url_for('game', name=game.name, id=game.id)}}"> {{ game.name }}</a></li>
-		<li> {{ game.description }}</li>
-		<li> {{ game.price }}</li>
-		<li> {{ game.data }}</li>
-		<hr>
+			{% include "icon_game.html" %}
 		{% endfor %}
 	</ul>
 {% endblock %} 

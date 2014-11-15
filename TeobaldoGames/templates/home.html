@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% block content%}
-    <div class="jumbo">
-    	<h2>Welcome to the TeobaldoGames</h2>
-    	<h3>Seu site de compra e venda de jogos</h3>
+    <div class="head-home">
+        <h1>Last games add</h1>
+    </div>
+    <div class="gradegames">
+        {% for game in games %}
+            {% include "icon_game.html" %}
+        {% endfor %}
     </div>
 {% endblock %}
