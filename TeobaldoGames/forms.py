@@ -30,3 +30,10 @@ class GameForm(Form):
 
 class SearchForm(Form):
 	words = StringField('words')
+
+class AddCoinForm(Form):
+	qtd_coin = IntegerField('qtd_coin')
+
+class EditePerfilForm(Form):
+	name = StringField('name', validators=[DataRequired()])
+	email = StringField('email', validators=[Email(message='Email invalido')])
