@@ -1,13 +1,14 @@
 
  <div class="col-lg-4">
-    {% if games.photo %}
+    {% if game.photo %}
         <img class="img-circle" src="{{ url_for('static', filename='uploads_images/'+ game.photo )}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     {% else %}
         <img class="img-circle" src="{{ url_for('static', filename='uploads_images/default.jpg')}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     {% endif%}
 
      <h2>{{game.name}}</h2>
+     <p>{{game.price}}</p>
      <p>{{game.description}}</p>
-     <p><a class="btn btn-default" href="{{ url_for('game', nickname=game.name, id=game.id)}}" role="button">View Game &raquo;</a></p>
+     <p><a class="btn btn-default" href="{{ url_for('game', name=game.name, id=game.id)}}" role="button">View Game &raquo;</a></p>
 </div><!-- /.col-lg-4 -->
         
