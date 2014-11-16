@@ -37,3 +37,6 @@ class AddCoinForm(Form):
 class EditePerfilForm(Form):
 	name = StringField('name', validators=[DataRequired()])
 	email = StringField('email', validators=[Email(message='Email invalido')])
+
+class AtualizePhotoForm(Form):
+	photo = FileField('photo', validators=[DataRequired()])
