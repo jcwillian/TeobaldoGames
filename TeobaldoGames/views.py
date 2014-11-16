@@ -6,9 +6,18 @@ from flask.ext.login import login_user, logout_user, current_user, login_require
 import datetime
 from werkzeug import secure_filename
 import os
+from flask.ext.sqlalchemy import get_debug_queries
+from config import DATABASE_QUERY_TIMEOUT
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 app.config['MEDIA_ROOT'] = os.path.join(PROJECT_ROOT, 'media_files')
+
+@app.after_request
+def after_request(response):
+    for query in get_debug_queries():
+        if query.duration >= DATABASE_QUERY_TIMEOUT:
+            app.logger.warning("SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" % (query.statement, query.parameters, query.duration, query.context))
+    return response
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -61,8 +70,8 @@ def login():
 def singup():
 	form = CadastroForm()
 	if form.validate_on_submit():
-		filename = form.nickname.data + secure_filename(form.photo.data.filename)
-		form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
+		#filename = form.nickname.data + secure_filename(form.photo.data.filename)
+		#form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
 		user = User(name=form.name.data,
 						nickname=form.nickname.data,
 						email=form.email.data,

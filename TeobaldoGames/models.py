@@ -1,5 +1,14 @@
 from TeobaldoGames import db
+import re
+from TeobaldoGames import app
 from hashlib import md5
+
+import sys
+if sys.version_info >= (3, 0):
+    enable_search = False
+else:
+    enable_search = True
+    import flask.ext.whooshalchemy as whooshalchemy
 
 followers = db.Table('followers',
     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
@@ -76,6 +85,8 @@ class Feedback(db.Model):
         return 'Feedback: %r' %(self.message)
 
 class Game(db.Model):
+
+    __searchable__ = ['body']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     description = db.Column(db.String(1000))
@@ -105,3 +116,6 @@ class Sale(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     data = db.Column(db.DateTime)
     items_of_purchase = db.relationship('Item_of_purchase', backref='purchaser', lazy='dynamic')
+
+if enable_search:
+    whooshalchemy.whoosh_index(app, Jogo)
