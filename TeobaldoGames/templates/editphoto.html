@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+	<h1>Change Photo</h1>
+	<p>Photo: </p>
+	{% if g.user.photo %}
+        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/'+ g.user.photo )}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    {% else %}
+        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/default.jpg')}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    {% endif%}
+	<form action="" method="post" name="changephoto", enctype="multipart/form-data">
+		{{ form.hidden_tag() }}
+		
+		<p>
+			Imagen: {{ form.photo(size=50) }}<br>
+			{% for error in form.photo.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+		</p>
+		<p><input type="submit" value="Atualiza"></p>
+	</form>
+{% endblock %}
