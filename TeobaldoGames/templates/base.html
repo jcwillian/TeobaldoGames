@@ -1,6 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <!-- Configurando o titulo da pagina-->
     {% if title %}
     <title>{{ title }}</title>
@@ -8,7 +13,7 @@
     <!-- Se não for informando o titulo sera usado um padrão-->
     <title> TeobaldoGames</title>
     {% endif %}
-    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='teste2.css')}}">
     <link href="/static/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/static/dist/css/bootstrap-responsive.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -18,49 +23,53 @@
 <!--         Corpo da pagina        -->
 <body>
     <!-- Configurando topo -->
-    <header>
-        <div class="container">
-            <h1 class="logo"> TeobaldoGames</h1>
-            
-            <strong>
-                <nav>
-                    <ul class="menu">
-                        <li><a href="{{ url_for('home') }}">HOME</a></li>
-                        {% if g.user.is_authenticated() %}
+    <div class="navbar-wrapper">
+      <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Teobaldo Games </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="{{ url_for('home') }}">Home</a></li>
+                {% if g.user.is_authenticated() %}
                             <li><a href="{{ url_for('user', nickname=g.user.nickname) }}">PROFILE</a></li>
                             <li><a href="{{ url_for('logout') }}">LOGOUT</a></li>
                             <li><a href="{{ url_for('addgame') }}">ADD GAME</a></li>
                             <li><a href="{{ url_for('mylistgames') }}">MY LIST GAME</a></li>
+                            <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
                         {% else %}
                             <li><a href="{{ url_for('login') }}">LOGIN</a></li>
                             <li><a href="{{ url_for('singup') }}">SIGN UP</a></li>
                         {% endif %}
-                    </ul>
-                </nav>
-            </strong>
-        </div>
-        <div class="search-game">
-            <form action="{{ url_for('game')}}" method="post" name="searchgame">
-                {{ g.form.words(size=50)}}        
-                <input type="submit" value="search games">
-            </form>
-        </div>
-    </header>
-    <!-- Fim da configuração do topo  -->
-    <div class="body">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li>{{ message }} </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-    
-        {% block content %}
+                
+              </ul>
+            </div>
+          </div>
+        </nav>
 
-        {% endblock %}
+      </div>
     </div>
+    {% block content %}
+    {% endblock %}
 </body>
 </html>
