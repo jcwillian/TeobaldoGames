@@ -274,3 +274,28 @@ def editephoto():
 		return redirect(url_for('user', nickname=g.user.nickname, id = g.user.id))
 	return render_template('editphoto.html', form=form, title='Edite photo')	
 
+@app.route('/editgame/<int:id>', methods=['GET', 'POST'])
+def editgame(id = None):
+	form = AtualizeGameForm()
+	if id:
+		game = Game.query.get(id)
+		if form.validate_on_submit():
+			if form.photo_game.data.filename:
+				filename = g.user.nickname + form.name.data + secure_filename(form.photo_game.data.filename)
+				form.photo_game.data.save('TeobaldoGames/static/uploads_images/' + filename)
+				game.name = form.name.data
+				game.description = form.description.data
+				game.price = form.price.data
+				game.photo = filename
+			else:
+				game.name = form.name.data
+				game.description = form.description.data
+				game.price = form.price.data
+				
+			db.session.add(game)
+			db.session.commit()
+			return redirect(url_for('mylistgames'))
+
+		return render_template('editgame.html', title='edit Game', form=form, game=game)
+	else:
+		return redirect(url_for('home'))
