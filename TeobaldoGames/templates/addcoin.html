@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+	<h1>Add Coin</h1>
+	<form action="" method="post" name="addcoin">
+		{{ form.hidden_tag() }}
+		<p>
+			Total coin add: {{ form.qtd_coin(size=50) }}<br>
+			{% for error in form.qtd_coin.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+		</p>
+		<p><input type="submit" value="Add coin"></p>
+	</form>
+{% endblock %}
