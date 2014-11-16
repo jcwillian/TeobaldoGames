@@ -8,7 +8,9 @@
 
      <h2>{{game.name}}</h2>
      <p>{{game.price}}</p>
+     <p><a href="{{url_for('user', nickname=game.own.nickname, id=game.own.id)}}"> Own : {{ game.own.nickname }}</a></p>
      <p>{{game.description}}</p>
+
      <p><a class="btn btn-default" href="{{ url_for('game', name=game.name, id=game.id)}}" role="button">View Game &raquo;</a></p>
 </div><!-- /.col-lg-4 -->
         
