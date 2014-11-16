@@ -4,8 +4,10 @@
         <h1>Last games add</h1>
     </div>
     <div class="gradegames">
+    {% if games %}
         {% for game in games %}
             {% include "icon_game.html" %}
         {% endfor %}
+    {% endif %}
     </div>
 {% endblock %}
