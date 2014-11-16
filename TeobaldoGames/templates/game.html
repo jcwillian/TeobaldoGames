@@ -12,11 +12,15 @@
      <p>{{game.price}}</p>
      <p><a href="{{url_for('user', nickname=game.own.nickname, id=game.own.id)}}"> Own : {{ game.own.nickname }}</a></p>
      <p>{{game.description}}</p>
+     {% if g.user.is_authenticated() and g.user.nickname == game.own.nickname %}
+		<p><a class="btn btn-default" href="{{ url_for('editgame', id=game.id)}}" role="button">Edit Game&raquo;</a></p>
+	{% else %}
+		{% if g.user.is_authenticated()%}
      <p><a class="btn btn-default" href="{{ url_for('buy', id=game.id)}}" role="button">Buy&raquo;</a></p>
+		{% endif%}
+	{% endif %}
 </div><!-- /.col-lg-4 -->
 
-	{% if g.user.is_authenticated() and g.user.nickname == game.own.nickname %}
-		<p><a class="btn btn-default" href="{{ url_for('editgame', id=game.id)}}" role="button">Edit Game&raquo;</a></p>
-	{% endif %}
+	
 {% endblock%}
         
