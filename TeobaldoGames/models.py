@@ -4,11 +4,8 @@ from TeobaldoGames import app
 from hashlib import md5
 
 import sys
-if sys.version_info >= (3, 0):
-    enable_search = False
-else:
-    enable_search = True
-    import flask.ext.whooshalchemy as whooshalchemy
+
+
 
 followers = db.Table('followers',
     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
@@ -117,5 +114,3 @@ class Sale(db.Model):
     data = db.Column(db.DateTime)
     items_of_purchase = db.relationship('Item_of_purchase', backref='purchaser', lazy='dynamic')
 
-if enable_search:
-    whooshalchemy.whoosh_index(app, Jogo)
