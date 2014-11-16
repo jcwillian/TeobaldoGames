@@ -254,12 +254,23 @@ def addcoin():
 @app.route('/editeperfil', methods=['GET', 'POST'])
 def editeperfil():
 	form = EditePerfilForm()
-	print('asdffffffffff')
 	if form.validate_on_submit():
-		print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
 		g.user.name = form.name.data;
 		g.user.email = form.email.data;
 		db.session.add(g.user)
 		db.session.commit()
 		return redirect(url_for('user', nickname=g.user.nickname, id=g.user.id))
 	return render_template('editaruser.html', form=form, title='Edite Perfil')
+
+@app.route('/editephoto', methods=['GET','POST'])
+def editephoto():
+	form = AtualizePhotoForm()
+	if form.validate_on_submit():
+		filename = g.user.nickname + secure_filename(form.photo.data.filename)
+		form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
+		g.user.photo = filename
+		db.session.add(g.user)
+		db.session.commit()
+		return redirect(url_for('user', nickname=g.user.nickname, id = g.user.id))
+	return render_template('editphoto.html', form=form, title='Edite photo')	
+
