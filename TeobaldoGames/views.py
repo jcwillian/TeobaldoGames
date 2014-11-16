@@ -70,13 +70,20 @@ def login():
 def singup():
 	form = CadastroForm()
 	if form.validate_on_submit():
-		filename = form.nickname.data + secure_filename(form.photo.data.filename)
-		form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
-		user = User(name=form.name.data,
+		if form.photo.data.filename:
+			filename = form.nickname.data + secure_filename(form.photo.data.filename)
+			form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
+			user = User(name=form.name.data,
 						nickname=form.nickname.data,
 						email=form.email.data,
 						password=form.password.data,
 						photo = filename,
+						coin = 0)
+		else:
+			user = User(name=form.name.data,
+						nickname=form.nickname.data,
+						email=form.email.data,
+						password=form.password.data,
 						coin = 0)
 		try:
 			db.session.add(user)
@@ -114,14 +121,22 @@ def user(nickname):
 def addgame():
 	form = GameForm()
 	if form.validate_on_submit():
-		filename = g.user.nickname + form.name.data + secure_filename(form.photo_game.data.filename)
-		form.photo_game.data.save('TeobaldoGames/static/uploads_images/' + filename)
-		game = Game(name = form.name.data,
+		if form.photo_game.data.filename:
+			filename = g.user.nickname + form.name.data + secure_filename(form.photo_game.data.filename)
+			form.photo_game.data.save('TeobaldoGames/static/uploads_images/' + filename)
+			game = Game(name = form.name.data,
 						    description = form.description.data,
 						    price = float(form.price.data),
 							data = datetime.datetime.utcnow(),
 							own = g.user,
 							photo = filename)
+		else:
+			game = Game(name = form.name.data,
+						    description = form.description.data,
+						    price = float(form.price.data),
+							data = datetime.datetime.utcnow(),
+							own = g.user,
+							)
 		db.session.add(game)
 		db.session.commit()
 		return redirect(url_for('home'))
