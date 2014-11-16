@@ -3,10 +3,8 @@
 {% block content %}
 		<div class='user'>
       	  {% if user.photo %}
-          <img src="{{ url_for('static', filename='uploads_images/'+ user.photo) }}">
-          {% else %}
-          <img src="{{ url_for('static', filename='uploads_images/default.png') }}">
-          {% endif %}
+      	  <img class="img-circle" src="{{ url_for('static', filename='uploads_images/'+ user.photo )}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+      	  {% endif %}
           <h1>User: {{ user.name }}</h1>
           <p>Total Coins = {{ user.coin}} </p>
           <p>Email: {{ user.email }}</p>
