@@ -156,16 +156,22 @@ def mylistgames():
 def game(name = None, id = None):
 	form = SearchForm()
 	if name and id:
-		games = Game.query.get(id)
-		games = [games]
+		print('com id')
+		game = Game.query.get(id)
+		return render_template('game.html', 
+								title=name,
+								game = game)
 	elif name:
+		print('com nome')
 		games = Game.query.filter_by(name=name).all()
 	else:
 		if g.form.words.data:
+			print('data')
 			games = Game.query.filter_by(name = g.form.words.data).all()
 		else:
+			print('sem nada')
 			games = Game.query.all()
-	return render_template('game.html', 
+	return render_template('games.html', 
 								title=name,
 								games = games)
 
@@ -218,7 +224,7 @@ def buy(id = None):
 		#Obtendo o game informado pelo id.
 		game = Game.query.get(id)
 		# Verificando se o game existe.
-		if game:
+		if game and not g.user.nickname == game.own.nickname:
 			#Verificando se a quantidade de coins e suficiente
 			if g.user.coin >= game.price:
 				game.own.coin += game.price
