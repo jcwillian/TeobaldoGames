@@ -40,3 +40,9 @@ class EditePerfilForm(Form):
 
 class AtualizePhotoForm(Form):
 	photo = FileField('photo', validators=[DataRequired()])
+
+class AtualizeGameForm(Form):
+	name = StringField('name')
+	description = TextAreaField('description')
+	price = FloatField('price')
+	photo_game = FileField('photo_game')
