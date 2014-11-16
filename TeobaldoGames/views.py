@@ -1,6 +1,6 @@
 from TeobaldoGames import app, db, login_manager
 from flask import render_template, flash, redirect, session, url_for, request, g , current_app, send_from_directory
-from .forms import LoginForm, CadastroForm, GameForm, AddDetonadoForm, FeedbackForm, SearchForm
+from .forms import *
 from models import User, Detonado, Game
 from flask.ext.login import login_user, logout_user, current_user, login_required
 import datetime
@@ -161,7 +161,7 @@ def game(name = None, id = None):
 	elif name:
 		games = Game.query.filter_by(name=name).all()
 	else:
-		if len(g.form.words.data):
+		if g.form.words.data:
 			games = Game.query.filter_by(name = g.form.words.data).all()
 		else:
 			games = Game.query.all()
@@ -233,3 +233,27 @@ def buy(id = None):
 		else:
 			return redirect(url_for('home'))
 	return redirect(url_for('mylistgames'))
+
+@app.route('/addcoin', methods=['GET', 'POST'])
+def addcoin():
+	form = AddCoinForm()
+	if form.validate_on_submit():
+		qtd_coin = int(form.qtd_coin.data)
+		g.user.coin += qtd_coin
+		db.session.add(g.user)
+		db.session.commit()
+		return redirect(url_for('user', nickname=g.user.nickname, id=g.user.id))
+	return render_template('addcoin.html', form=form, title='Add coin')
+
+@app.route('/editeperfil', methods=['GET', 'POST'])
+def editeperfil():
+	form = EditePerfilForm()
+	print('asdffffffffff')
+	if form.validate_on_submit():
+		print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+		g.user.name = form.name.data;
+		g.user.email = form.email.data;
+		db.session.add(g.user)
+		db.session.commit()
+		return redirect(url_for('user', nickname=g.user.nickname, id=g.user.id))
+	return render_template('editaruser.html', form=form, title='Edite Perfil')
