@@ -1,20 +1,13 @@
-<div class = "game">
-	<!-- Titulo do jogo -->
-	<div class="title-game"> <a href="{{ url_for('game', name= game.name, id=game.id)}}">{{ game.name }} </a></div>
-	<!-- Imagem do jogo-->
-	<div class="img-game"> 
-		{% if game.photo %}
-			<img src="{{ url_for('static', filename='uploads_images/'+ game.photo) }}">
-		{% else %}
-			<img src="{{ url_for('static', filename='uploads_images/default.jpg') }}">
-		{% endif %}
-	</div>
-	
-	<div class="price-game">Coins {{ game.price }}</div>
-	<div class="own-game"><a href="{{ url_for('user', nickname=game.own.nickname)}}"> Own {{ game.own.nickname }} </div>
-	<div class="see-game">
-		<form action="{{ url_for('game', name = game.name, id = game.id)}}">
-			<input type="submit" value="See Game">
-		</form>
-	</div>
-</div>
+
+ <div class="col-lg-4">
+    {% if games.photo %}
+        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/'+ game.photo )}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    {% else %}
+        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/default.jpg')}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    {% endif%}
+
+     <h2>{{game.name}}</h2>
+     <p>{{game.description}}</p>
+     <p><a class="btn btn-default" href="{{ url_for('game', nickname=game.name, id=game.id)}}" role="button">View Game &raquo;</a></p>
+</div><!-- /.col-lg-4 -->
+        
