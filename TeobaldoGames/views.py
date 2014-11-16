@@ -299,3 +299,12 @@ def editgame(id = None):
 		return render_template('editgame.html', title='edit Game', form=form, game=game)
 	else:
 		return redirect(url_for('home'))
+
+@app.route('/deletegame/<int:id>', methods=['GET', 'POST'])
+def deletegame(id = None):
+	if id:
+		game = Game.query.get(id)
+		db.session.delete(game)
+		db.session.commit()
+		return redirect(url_for('mylistgames'))
+	return redirect(url_for('home'))
