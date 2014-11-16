@@ -70,8 +70,8 @@ def login():
 def singup():
 	form = CadastroForm()
 	if form.validate_on_submit():
-		#filename = form.nickname.data + secure_filename(form.photo.data.filename)
-		#form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
+		filename = form.nickname.data + secure_filename(form.photo.data.filename)
+		form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
 		user = User(name=form.name.data,
 						nickname=form.nickname.data,
 						email=form.email.data,
