@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h1>Cadastro Game</h1>
+	<form action="" method="post" name="addGame" enctype="multipart/form-data">
+		{{ form.hidden_tag() }}
+
+		{% if game.photo %}
+        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/'+ game.photo )}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    {% else %}
+        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/default.jpg')}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    {% endif%}
+		<p>
+			Image: {{ form.photo_game(size=10) }}<br>
+			{% for error in form.photo_game.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+		</p>
+
+		<p>
+			Name: {{ form.name(size=50, value = game.name) }}<br>
+			{% for error in form.name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+		</p>
+
+		
+		<p>
+			description: {{ form.description(size=1000, value = game.description) }}<br>
+			{% for error in form.description.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+		</p>
+
+		<p>
+			Price: {{ form.price(size=10, value=game.price) }}<br>
+			{% for error in form.price.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+		</p>
+
+		
+
+		<p><input type="submit" value="Atualie"></p>
+	</form>
+{% endblock %}
