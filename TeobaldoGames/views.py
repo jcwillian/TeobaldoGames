@@ -8,6 +8,7 @@ from werkzeug import secure_filename
 import os
 from flask.ext.sqlalchemy import get_debug_queries
 from config import DATABASE_QUERY_TIMEOUT
+from random import randint, shuffle
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 app.config['MEDIA_ROOT'] = os.path.join(PROJECT_ROOT, 'media_files')
@@ -71,7 +72,7 @@ def singup():
 	form = CadastroForm()
 	if form.validate_on_submit():
 		if form.photo.data.filename:
-			filename = form.nickname.data + secure_filename(form.photo.data.filename)
+			filename = photoname(form.nickname.data,secure_filename(form.photo.data.filename))
 			form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
 			user = User(name=form.name.data,
 						nickname=form.nickname.data,
@@ -122,7 +123,7 @@ def addgame():
 	form = GameForm()
 	if form.validate_on_submit():
 		if form.photo_game.data.filename:
-			filename = g.user.nickname + form.name.data + secure_filename(form.photo_game.data.filename)
+			filename = photoname(form.name.data,secure_filename(form.photo_game.data.filename))
 			form.photo_game.data.save('TeobaldoGames/static/uploads_images/' + filename)
 			game = Game(name = form.name.data,
 						    description = form.description.data,
@@ -268,7 +269,7 @@ def editeperfil():
 def editephoto():
 	form = AtualizePhotoForm()
 	if form.validate_on_submit():
-		filename = g.user.nickname + secure_filename(form.photo.data.filename)
+		filename = photoname(g.user.nickname.data,secure_filename(form.photo.data.filename))
 		form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
 		g.user.photo = filename
 		db.session.add(g.user)
@@ -283,7 +284,7 @@ def editgame(id = None):
 		game = Game.query.get(id)
 		if form.validate_on_submit():
 			if form.photo_game.data.filename:
-				filename = g.user.nickname + form.name.data + secure_filename(form.photo_game.data.filename)
+				filename = photoname(form.name.data,secure_filename(form.photo_game.data.filename))
 				form.photo_game.data.save('TeobaldoGames/static/uploads_images/' + filename)
 				game.name = form.name.data
 				game.description = form.description.data
@@ -310,3 +311,10 @@ def deletegame(id = None):
 		db.session.commit()
 		return redirect(url_for('mylistgames'))
 	return redirect(url_for('home'))
+
+def photoname(nickname, photoname):
+	number = str(randint(9999999999999999999,999999999999999999999999999999999999999999999))
+	string = list(number + nickname)
+	shuffle(string)
+	ponto = photoname.find('.')
+	return ''.join(string) + photoname[ponto:] 
