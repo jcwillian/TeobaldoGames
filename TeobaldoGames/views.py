@@ -45,7 +45,7 @@ def allowed_file(filename):
 @app.route('/home',methods=['GET', 'POST'])
 def home():
 	form = SearchForm()
-	games = Game.query.order_by('data').all()[::-1][0:9]
+	games = Game.query.order_by('data').all()[::-1][0:6]
 	return render_template('home.html', title='Home - TeobaldoGames', games = games, form = form)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -230,6 +230,7 @@ def buy(id = None):
 				game.own.coin += game.price
 				g.user.coin -= game.price
 				game.own = g.user
+				game.venda = 0
 				db.session.add(game)
 				db.session.commit()
 				db.session.add(g.user)
