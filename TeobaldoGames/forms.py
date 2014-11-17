@@ -46,3 +46,4 @@ class AtualizeGameForm(Form):
 	description = TextAreaField('description')
 	price = FloatField('price')
 	photo_game = FileField('photo_game')
+	
