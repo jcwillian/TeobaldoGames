@@ -155,22 +155,22 @@ def mylistgames():
 @app.route('/game/<name>/<int:id>')
 def game(name = None, id = None):
 	form = SearchForm()
-	if name and id:
-		print('com id')
-		game = Game.query.get(id)
-		return render_template('game.html', 
+	if request.method == 'POST':
+		word = request.form['search']
+		games = Game.query.filter_by(name=word).all()
+	else:
+		if name and id:
+			game = Game.query.get(id)
+			return render_template('game.html', 
 								title=name,
 								game = game)
-	elif name:
-		print('com nome')
-		games = Game.query.filter_by(name=name).all()
-	else:
-		if g.form.words.data:
-			print('data')
-			games = Game.query.filter_by(name = g.form.words.data).all()
+		elif name:
+			games = Game.query.filter_by(name=name).all()
 		else:
-			print('sem nada')
-			games = Game.query.all()
+			if g.form.words.data:
+				games = Game.query.filter_by(name = g.form.words.data).all()
+			else:
+				games = Game.query.all()
 	return render_template('games.html', 
 								title=name,
 								games = games)
