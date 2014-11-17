@@ -157,7 +157,8 @@ def game(name = None, id = None):
 	form = SearchForm()
 	if request.method == 'POST':
 		word = request.form['search']
-		games = Game.query.filter_by(name=word).all()
+		games = Game.query.filter(Game.name.contains(word)).all()
+		#games = Game.query.filter_by(name=word).all()
 	else:
 		if name and id:
 			game = Game.query.get(id)
