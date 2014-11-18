@@ -1,0 +1,8 @@
+{% extends "base.html"%}
+
+{% block content %}
+	{% for game in games%}
+		<p> {{game.name}}</p>
+		 <img class="img-circle" src="{{ game.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+	{% endfor %}
+{% endblock %}
