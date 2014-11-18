@@ -6,12 +6,12 @@
 		{{ form.hidden_tag() }}
 
 		{% if game.photo %}
-        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/'+ game.photo )}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+         <img class="img-circle" src="{{ game.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     {% else %}
-        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/default.jpg')}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+        <img class="img-circle" src="http://i.imgur.com/6fy9Lw0.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     {% endif%}
 		<p>
-			Image: {{ form.photo_game(size=10) }}<br>
+			URL Image: {{ form.photo_game(size=80) }}<br>
 			{% for error in form.photo_game.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
@@ -38,7 +38,6 @@
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
 		</p>
-
 		
 
 		<p><input type="submit" value="Atualize"></p>
