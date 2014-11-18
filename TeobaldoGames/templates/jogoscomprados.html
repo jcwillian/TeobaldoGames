@@ -1,8 +1,17 @@
-{% extends "base.html"%}
+<div class="col-lg-4">
 
-{% block content %}
-	{% for game in games%}
-		<p> {{game.name}}</p>
-		 <img class="img-circle" src="{{ game.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-	{% endfor %}
-{% endblock %}
+    {% if game.photo %}
+        <img class="img-circle" src="{{ game.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    {% else %}
+        <img class="img-circle" src="http://i.imgur.com/6fy9Lw0.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    {% endif%}
+
+     <h2>{{game.name}}</h2>
+     <p>{{game.price}}</p>
+     <p><a href="{{url_for('user', nickname=game.own.nickname, id=game.own.id)}}"> Own : {{ game.own.nickname }}</a></p>
+     <p>{{game.description[:100]}} ...</p>
+
+     <p><b> Vendedor</b> :<a href="{{url_for('user', nickname=game.bu.buy.buyer.nickname, id=game.bu.buy.buyer.id)}}"> {{ game.bu.buy.buyer.nickname }} </a></p>
+
+     <p><a class="btn btn-default" href="{{ url_for('game', name=game.name, id=game.id)}}" role="button">View Game &raquo;</a></p>
+</div><!-- /.col-lg-4 -->
