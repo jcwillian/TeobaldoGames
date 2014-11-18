@@ -1,7 +1,7 @@
 from TeobaldoGames import app, db, login_manager
 from flask import render_template, flash, redirect, session, url_for, request, g , current_app, send_from_directory
 from .forms import *
-from models import User, Detonado, Game
+from models import *
 from flask.ext.login import login_user, logout_user, current_user, login_required
 import datetime
 from werkzeug import secure_filename
@@ -71,21 +71,12 @@ def login():
 def singup():
 	form = CadastroForm()
 	if form.validate_on_submit():
-		if form.photo.data.filename:
-			filename = photoname(form.nickname.data,secure_filename(form.photo.data.filename))
-			form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
-			user = User(name=form.name.data,
-						nickname=form.nickname.data,
-						email=form.email.data,
-						password=form.password.data,
-						photo = filename,
-						coin = 0)
-		else:
-			user = User(name=form.name.data,
-						nickname=form.nickname.data,
-						email=form.email.data,
-						password=form.password.data,
-						coin = 0)
+		user = User(name=form.name.data,
+					nickname=form.nickname.data,
+					email=form.email.data,
+					password=form.password.data,
+					photo = form.photo.data,
+					coin = 0)
 		try:
 			db.session.add(user)
 			db.session.commit()
@@ -109,35 +100,25 @@ def user(nickname):
 	if user == None:
 		flash('Usuario %s nao encontrado.' %(nickname))
 		return redirect(url_for('home'))
-	detonados = [
-		{'author': user, 'body':'Teste detonado 1'},
-		{'author': user, 'body': 'Teste detonado 2'}
-	]
+	jc = jogoscomprados(user)
+	jv = jogosvendidos(user)
 
 	return render_template('user.html',
 							user=user,
-							detonados=detonados,)
+							jc=jc,
+							jv=jv)
 @app.route('/addgame', methods=['GET', 'POST'])
 @login_required
 def addgame():
 	form = GameForm()
 	if form.validate_on_submit():
-		if form.photo_game.data.filename:
-			filename = photoname(form.name.data,secure_filename(form.photo_game.data.filename))
-			form.photo_game.data.save('TeobaldoGames/static/uploads_images/' + filename)
-			game = Game(name = form.name.data,
-						    description = form.description.data,
-						    price = float(form.price.data),
-							data = datetime.datetime.utcnow(),
-							own = g.user,
-							photo = filename)
-		else:
-			game = Game(name = form.name.data,
-						    description = form.description.data,
-						    price = float(form.price.data),
-							data = datetime.datetime.utcnow(),
-							own = g.user,
-							)
+		game = Game(name = form.name.data,
+				    description = form.description.data,
+				    price = float(form.price.data),
+					data = datetime.datetime.utcnow(),
+					own = g.user,
+					photo = form.photo_game.data)
+		
 		db.session.add(game)
 		db.session.commit()
 		return redirect(url_for('home'))
@@ -229,13 +210,27 @@ def buy(id = None):
 		if game and not g.user.nickname == game.own.nickname:
 			#Verificando se a quantidade de coins e suficiente
 			if g.user.coin >= game.price:
+				purchase = Purchase(buyer = game.own,
+									data = datetime.datetime.utcnow())
+				sale = Sale(buyer = g.user,
+							data = datetime.datetime.utcnow())
+				items = Item_of_purchase(buy = purchase, purchaser=sale)
+				game.bu = items
+
 				game.own.coin += game.price
 				g.user.coin -= game.price
+				db.session.add(game.own)
+				db.session.commit()
 				game.own = g.user
-				game.venda = 0
 				db.session.add(game)
 				db.session.commit()
 				db.session.add(g.user)
+				db.session.commit()
+				db.session.add(purchase)
+				db.session.commit()
+				db.session.add(sale)
+				db.session.commit()
+				db.session.add(items)
 				db.session.commit()
 			else:
 				return redirect(url_for('home'))
@@ -269,9 +264,7 @@ def editeperfil():
 def editephoto():
 	form = AtualizePhotoForm()
 	if form.validate_on_submit():
-		filename = photoname(g.user.nickname.data,secure_filename(form.photo.data.filename))
-		form.photo.data.save('TeobaldoGames/static/uploads_images/' + filename)
-		g.user.photo = filename
+		g.user.photo = form.photo.data
 		db.session.add(g.user)
 		db.session.commit()
 		return redirect(url_for('user', nickname=g.user.nickname, id = g.user.id))
@@ -283,18 +276,11 @@ def editgame(id = None):
 	if id:
 		game = Game.query.get(id)
 		if form.validate_on_submit():
-			if form.photo_game.data.filename:
-				filename = photoname(form.name.data,secure_filename(form.photo_game.data.filename))
-				form.photo_game.data.save('TeobaldoGames/static/uploads_images/' + filename)
-				game.name = form.name.data
-				game.description = form.description.data
-				game.price = form.price.data
-				game.photo = filename
-			else:
-				game.name = form.name.data
-				game.description = form.description.data
-				game.price = form.price.data
-				
+			game.name = form.name.data
+			game.description = form.description.data
+			game.price = form.price.data
+			game.photo = form.photo_game.data
+							
 			db.session.add(game)
 			db.session.commit()
 			return redirect(url_for('mylistgames'))
@@ -318,3 +304,16 @@ def photoname(nickname, photoname):
 	shuffle(string)
 	ponto = photoname.find('.')
 	return ''.join(string) + photoname[ponto:] 
+
+
+def jogoscomprados(user):
+	compras = user.sales.all()
+	games = games = [x.items_of_purchase.all()[0].game for x in compras]
+	games = [x[0] for x in games if len(x)]
+	return games
+
+def jogosvendidos(user):
+	compras = user.buy.all()
+	games = games = [x.items_of_purchase.all()[0].game for x in compras]
+	games = [x[0] for x in games if len(x)]
+	return games
