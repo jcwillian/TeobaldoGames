@@ -5,7 +5,7 @@
 		{{ form.hidden_tag() }}
 		
 		<p>
-			Imagen: {{ form.photo(size=50) }}<br>
+			URL Imagen: {{ form.photo(size=50) }}<br>
 			{% for error in form.photo.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
