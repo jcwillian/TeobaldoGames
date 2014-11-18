@@ -3,9 +3,9 @@
 	<h1>Change Photo</h1>
 	<p>Photo: </p>
 	{% if g.user.photo %}
-        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/'+ g.user.photo )}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+        <img class="img-circle" src="{{g.user.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     {% else %}
-        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/default.jpg')}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+        <img class="img-circle" src="http://i.imgur.com/6fy9Lw0.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     {% endif%}
 	<form action="" method="post" name="changephoto", enctype="multipart/form-data">
 		{{ form.hidden_tag() }}
