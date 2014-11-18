@@ -1,9 +1,10 @@
 
  <div class="col-lg-4">
+
     {% if game.photo %}
-        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/'+ game.photo )}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+        <img class="img-circle" src="{{ game.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     {% else %}
-        <img class="img-circle" src="{{ url_for('static', filename='uploads_images/default.jpg')}}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+        <img class="img-circle" src="http://i.imgur.com/6fy9Lw0.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     {% endif%}
 
      <h2>{{game.name}}</h2>
