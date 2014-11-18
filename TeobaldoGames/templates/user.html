@@ -3,7 +3,7 @@
 {% block content %}
 		<div class='user'>
       	  {% if user.photo %}
-          <img class="img-circle" src="user.photo}}" style="width: 140px; height: 140px;">
+          <img class="img-circle" src="{{user.photo}}" style="width: 140px; height: 140px;">
           {% else %}
           <img src="http://i.imgur.com/6fy9Lw0.png">
           {% endif %}
@@ -11,24 +11,28 @@
           <p>Total Coins = {{ user.coin}} </p>
           <p>Email: {{ user.email }}</p>
 
+          <div class="row">
           {% if jc%}
-          Jogos comprados
+          <h1>Jogos comprados</h1>
             {% for game in jc %}
-              Nome: {{ game.name}}
-              Vendedor: {{ game.bu.buy.buyer.nickname }}
+              {% include "jogoscomprados.html" %}
+              
             {% endfor %}
           {% else %}
             não Tem jogo comprado ou foi vendido 
           {% endif %}
+          </div>
           <br>
+          <hr>
+          <div class="row">
           {% if jv%}
-          Jogos vendidos
+          <h1>Jogos vendidos</h1>
             {% for game in jv %}
-              Nome: {{ game.name}}
-              Vendedor: {{ game.bu.purchaser.buyer.nickname }}
+              {% include "jogosvendidos.html" %}
             {% endfor %}
           {% else %}
             não Tem jogo vendidos. 
           {% endif %}
+          </div>
         </div>
 {% endblock %}
