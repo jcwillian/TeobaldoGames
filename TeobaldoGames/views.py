@@ -264,10 +264,11 @@ def editeperfil():
 def editephoto():
 	form = AtualizePhotoForm()
 	if form.validate_on_submit():
-		g.user.photo = form.photo.data
-		db.session.add(g.user)
-		db.session.commit()
-		return redirect(url_for('user', nickname=g.user.nickname, id = g.user.id))
+		if form.photo.data:
+			g.user.photo = form.photo.data
+			db.session.add(g.user)
+			db.session.commit()
+			return redirect(url_for('user', nickname=g.user.nickname, id = g.user.id))
 	return render_template('editphoto.html', form=form, title='Edite photo')	
 
 @app.route('/editgame/<int:id>', methods=['GET', 'POST'])
@@ -279,7 +280,8 @@ def editgame(id = None):
 			game.name = form.name.data
 			game.description = form.description.data
 			game.price = form.price.data
-			game.photo = form.photo_game.data
+			if form.photo_game.data:
+				game.photo = form.photo_game.data
 							
 			db.session.add(game)
 			db.session.commit()
