@@ -3,12 +3,32 @@
 {% block content %}
 		<div class='user'>
       	  {% if user.photo %}
-          <img class="img-circle" src="{{ url_for('static', filename='uploads_images/'+ user.photo) }}" style="width: 140px; height: 140px;">
+          <img class="img-circle" src="user.photo}}" style="width: 140px; height: 140px;">
           {% else %}
-          <img src="{{ url_for('static', filename='uploads_images/default.png') }}">
+          <img src="http://i.imgur.com/6fy9Lw0.png">
           {% endif %}
           <h1>User: {{ user.name }}</h1>
           <p>Total Coins = {{ user.coin}} </p>
           <p>Email: {{ user.email }}</p>
+
+          {% if jc%}
+          Jogos comprados
+            {% for game in jc %}
+              Nome: {{ game.name}}
+              Vendedor: {{ game.bu.buy.buyer.nickname }}
+            {% endfor %}
+          {% else %}
+            não Tem jogo comprado ou foi vendido 
+          {% endif %}
+          <br>
+          {% if jv%}
+          Jogos vendidos
+            {% for game in jv %}
+              Nome: {{ game.name}}
+              Vendedor: {{ game.bu.purchaser.buyer.nickname }}
+            {% endfor %}
+          {% else %}
+            não Tem jogo vendidos. 
+          {% endif %}
         </div>
 {% endblock %}
