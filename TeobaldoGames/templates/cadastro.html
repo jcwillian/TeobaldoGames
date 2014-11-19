@@ -57,14 +57,18 @@
 			{{ form.name(size=50, class='form-control') }}<br>
 		<label>Email</label>
 			{{ form.email(size=50, class='form-control') }}<br>
-			{% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
+			<ul>
+          {% for error in form.email.errors %}
+                  <li class="list-group-item list-group-item-danger">{{ error }} </li>
+                {% endfor %}<br>
+                </ul>
 		<label>Nickname</label>
 			{{ form.nickname(size=30, class='form-control') }}<br>
-			{% for error in form.nickname.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
+			<ul>
+          {% for error in form.nickname.errors %}
+                  <li class="list-group-item list-group-item-danger">{{ error }} </li>
+                {% endfor %}<br>
+                </ul>
 		<label>Password</label>
 			{{ form.password(size=30, class='form-control') }}<br>
 			
