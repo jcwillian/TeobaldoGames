@@ -38,8 +38,18 @@
   border-top-right-radius: 0;
 }
 	</style>
+
 	<form class="form-signup" method="post" name="cadastro">
 		{{ form.hidden_tag() }}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li class="list-group-item list-group-item-danger">{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 		<h2 class="form-signup-heading">Cadastro Usuario</h2>
 		<label>URL da Imagem</label>		
 			{{ form.photo(size=50, class='form-control') }}
