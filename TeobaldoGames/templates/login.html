@@ -39,8 +39,20 @@
   border-top-right-radius: 0;
 }
 	</style>
+
+  
+
 	<form class="form-signin" method="post" name="login" role="form">
 		{{ form.hidden_tag() }}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li class="list-group-item list-group-item-danger">{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 		<h2 class="form-signin-heading">Por favor faça o login</h2>
 		
 			<label for="inputName" class="col-sm-1 control-label" class="sr-only">Nickname</label>
