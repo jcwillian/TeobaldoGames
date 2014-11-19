@@ -1,21 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
-	<h1>Change Photo</h1>
-	<p>Photo: </p>
-	{% if g.user.photo %}
-        <img class="img-circle" src="{{g.user.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-    {% else %}
-        <img class="img-circle" src="http://i.imgur.com/6fy9Lw0.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-    {% endif%}
-	<form action="" method="post" name="changephoto", enctype="multipart/form-data">
+
+<style type="text/css">
+
+.form-signin {
+  max-width: 400px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin {
+  margin-bottom: 10px;
+}
+.form-signin {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+</style>
+	
+	<form class="form-signin" method="post" name="changephoto", enctype="multipart/form-data">
+
 		{{ form.hidden_tag() }}
-		
-		<p>
-			Imagen: {{ form.photo(size=50) }}<br>
-			{% for error in form.photo.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-		<p><input type="submit" value="Atualiza"></p>
+			<label>Foto Atual</label>
+			{% if g.user.photo %}
+        		<img class="img-circle" src="{{g.user.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    		{% else %}
+        		<img class="img-circle" src="http://i.imgur.com/6fy9Lw0.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    		{% endif%}
+			<h2 class="form-signin-heading">Alterar Foto</h2>	
+			<label>URL da Imagem</label>
+			{{ form.photo(size=50, class='form-control') }}<br>
+			
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Atualizar</button>
 	</form>
 {% endblock %}
