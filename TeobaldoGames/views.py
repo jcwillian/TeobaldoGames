@@ -211,7 +211,7 @@ def buy(id = None):
 				return redirect(url_for('home'))
 		else:
 			return redirect(url_for('home'))
-	flash('%s foi comprado com sucesso!', game.name)
+	flash('%s foi comprado com sucesso!' %(game.name))
 	return redirect(url_for('mylistgames'))
 
 @app.route('/addcoin', methods=['GET', 'POST'])
@@ -222,7 +222,7 @@ def addcoin():
 		g.user.coin += qtd_coin
 		db.session.add(g.user)
 		db.session.commit()
-		flash('%d TGCoins foram adicionado em seu perfil')
+		flash('%d TGCoins foram adicionado em seu perfil' %(qtd_coin))
 		return redirect(url_for('user', nickname=g.user.nickname, id=g.user.id))
 	return render_template('addcoin.html', form=form, title='Add coin')
 
