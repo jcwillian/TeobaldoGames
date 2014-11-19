@@ -41,32 +41,32 @@
               <ul class="nav navbar-nav">
                 <li class="active"><a href="{{ url_for('home') }}">Home</a></li>
                 {% if g.user.is_authenticated() %}
-                            <li><a href="{{ url_for('addgame') }}">Add Game</a></li>
-                            <li><a href="{{ url_for('mylistgames') }}">MY LIST GAME</a></li>
+                            <li><a href="{{ url_for('addgame') }}">Adicionar Jogo</a></li>
+                            <li><a href="{{ url_for('mylistgames') }}">Meus Jogos</a></li>
                             <li><a href="{{ url_for('user', nickname=g.user.nickname, id = g.user.id)}}">{{g.user.nickname}}</a></li>
                             <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Perfil <span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
                     
-                    <li><a href="{{ url_for('addcoin')}}">Add coin</a></li>
-                    <li><a href="{{ url_for('editeperfil')}}">Edit Perfil</a></li>
-                    <li><a href="{{ url_for('editephoto')}}">Edit Photo</a></li>
+                    <li><a href="{{ url_for('addcoin')}}">Adicionar TGCoin</a></li>
+                    <li><a href="{{ url_for('editeperfil')}}">Editar Perfil</a></li>
+                    <li><a href="{{ url_for('editephoto')}}">Editar Foto</a></li>
                     <li class="divider"></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>                    
+                    <li><a href="{{ url_for('logout') }}">Sair</a></li>                    
                   </ul>
                 </li>
                         {% else %}
-                            <li><a href="{{ url_for('login') }}">LOGIN</a></li>
-                            <li><a href="{{ url_for('singup') }}">SIGN UP</a></li>
+                            <li><a href="{{ url_for('login') }}">Entrar</a></li>
+                            <li><a href="{{ url_for('singup') }}">Cadastrar</a></li>
                         {% endif %}
                 
               </ul>
               <div id="navbar" class="navbar-collapse collapse">
           <form action="{{url_for('game')}}" class="navbar-form navbar-right" role="form" style="margin-right: 20px;" method="post">
             <div class="form-group">
-              <input name ='search' type="text" placeholder="Search Game" class="form-control">
+              <input name ='search' type="text" placeholder="Digite o nome do jogo" class="form-control">
             </div>
-            <button type="submit" class="btn btn-success">Search</button>
+            <button type="submit" class="btn btn-success">Pesquisar</button>
           </form>
         </div><!--/.navbar-collapse -->
       </div>
