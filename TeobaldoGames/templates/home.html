@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 {% block content%}
     <div class="container marketing">
-
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li class="list-group-item list-group-item-danger">{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
       <!-- Three columns of text below the carousel -->
     <div class="row">
     {% if games %}   
