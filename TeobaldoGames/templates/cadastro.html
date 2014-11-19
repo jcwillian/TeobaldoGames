@@ -1,44 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
-	<h1>Cadastro Usuario</h1>
-	<form action="" method="post" name="cadastro" enctype="multipart/form-data">
+	
+	<style type="text/css">
+
+.form-signup {
+  max-width: 430px;
+  padding: 10px;
+  margin: 0 auto;
+}
+.form-signup .form-signup-heading,
+.form-signup {
+  margin-bottom: 10px;
+}
+.form-signup {
+  font-weight: normal;
+}
+.form-signup .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signup .form-control:focus {
+  z-index: 4;
+}
+.form-signup input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signup input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+	</style>
+	<form class="form-signup" method="post" name="cadastro">
 		{{ form.hidden_tag() }}
-		
-		<p>
-			URL Imagen: {{ form.photo(size=50) }}<br>
-			{% for error in form.photo.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-
-		<p>
-			Nome: {{ form.name(size=50) }}<br>
-			{% for error in form.name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-
-		
-		<p>
-			Email: {{ form.email(size=50) }}<br>
+		<h2 class="form-signup-heading">Cadastro Usuario</h2>
+		<label>URL da Imagem</label>		
+			{{ form.photo(size=50, class='form-control') }}
+		<label>Nome</label>
+			{{ form.name(size=50, class='form-control') }}<br>
+		<label>Email</label>
+			{{ form.email(size=50, class='form-control') }}<br>
 			{% for error in form.email.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
-		</p>
-
-		<p>
-			Username: {{ form.nickname(size=30) }}<br>
+		<label>Nickname</label>
+			{{ form.nickname(size=30, class='form-control') }}<br>
 			{% for error in form.nickname.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
-		</p>
-
-		<p>
-			Password: {{ form.password(size=30) }}<br>
-			{% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-		<p><input type="submit" value="cadastro"></p>
+		<label>Password</label>
+			{{ form.password(size=30, class='form-control') }}<br>
+			
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
 	</form>
 {% endblock %}
