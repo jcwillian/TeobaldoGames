@@ -1,5 +1,14 @@
 <div class="col-lg-4">
-
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    
     {% if game.photo %}
         <img class="img-circle" src="{{ game.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     {% else %}
@@ -8,10 +17,10 @@
 
      <h2>{{game.name}}</h2>
      <p>{{game.price}}</p>
-     <p><a href="{{url_for('user', nickname=game.own.nickname, id=game.own.id)}}"> Own : {{ game.own.nickname }}</a></p>
+     <p><a href="{{url_for('user', nickname=game.own.nickname, id=game.own.id)}}"> Dono : {{ game.own.nickname }}</a></p>
      <p>{{game.description[:100]}} ...</p>
 
      <p><b>Comprador</b> : <a href="{{url_for('user', nickname=game.bu.purchaser.buyer.nickname, id=game.bu.purchaser.buyer.id)}}">{{ game.bu.purchaser.buyer.nickname }} </p>
 
-     <p><a class="btn btn-default" href="{{ url_for('game', name=game.name, id=game.id)}}" role="button">View Game &raquo;</a></p>
+     <p><a class="btn btn-default" href="{{ url_for('game', name=game.name, id=game.id)}}" role="button">Ver Jogo&raquo;</a></p>
 </div><!-- /.col-lg-4 -->
