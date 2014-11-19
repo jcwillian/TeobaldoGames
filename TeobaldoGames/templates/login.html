@@ -2,22 +2,64 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h1>Sign In</h1>
-	<div class="conte">
-	<form action="" method="post" name="login">
+<style type="text/css">
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin {
+  margin-bottom: 10px;
+}
+.form-signin {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+	</style>
+	<form class="form-signin" method="post" name="login" role="form">
 		{{ form.hidden_tag() }}
-		<p>
-			Nickname: {{ form.nickname(size=30) }}<br>
+		<h2 class="form-signin-heading">Por favor faça o login</h2>
+		
+			<label for="inputName" class="col-sm-1 control-label" class="sr-only">Nickname</label>
+			
+			{{ form.nickname(size=30, class='form-control', placeholder='Nickname') }}
 			{% for error in form.nickname.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
-		</p>
-		<p>
-			Password: {{ form.password(size=30) }}<br>
+          
+
+		
+			<label for="inputEmail3" class="col-sm-1 control-label" class="sr-only">Password</label>
+			
+			{{ form.password(size=20, class='form-control', placeholder='Password') }}<br>
 			{% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
-		</p>
-		<p><input type="submit" value="Sign In"></p>
+		 
+		  <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+		
 	</form>
 {% endblock %}
