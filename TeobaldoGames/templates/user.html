@@ -2,14 +2,19 @@
 
 {% block content %}
 		<div class='user'>
-      	  {% if user.photo %}
-          <img class="img-circle" src="{{user.photo}}" style="width: 140px; height: 140px;">
+    <div class="row featurette">
+       <div class="col-md-5">
+          {% if user.photo %}
+          <img class="img-thumbnail"  src="{{user.photo}}" style="width: 240px; height: 240px;">
           {% else %}
-          <img src="http://i.imgur.com/6fy9Lw0.png">
+          <img class="img-thumbnail"  src="http://i.imgur.com/6fy9Lw0.png" style="width: 240px; height: 240px;">
           {% endif %}
-          <h1>User: {{ user.name }}</h1>
-          <p>Total Coins = {{ user.coin}} </p>
-          <p>Email: {{ user.email }}</p>
+      </div>
+       <div class="col-md-7">
+        <h2 class="featurette-heading">Nome: {{user.name}}<br><span class="text-muted">  Nickname: {{user.nickname}}</span></h2>
+        <p class="lead">Email {{ user.email }} <br> Total TGCoins: {{user.coin}}</p>
+      </div>
+    </div>
 
           <div class="row">
           {% if jc%}
