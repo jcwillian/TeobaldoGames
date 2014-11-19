@@ -2,40 +2,51 @@
 
 {% block content %}
 	<h1>Cadastro Game</h1>
-	<form action="" method="post" name="addGame" >
+	<form role="form" method="post" name="addGame" action="{{url_for('addgame')}}">
 		{{ form.hidden_tag() }}
-
-		<p>
-			URL Image: {{ form.photo_game(size=80) }}<br>
-			{% for error in form.photo_game.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-
-		<p>
-			Name: {{ form.name(size=50) }}<br>
-			{% for error in form.name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-
+		<div class="row">
+		<div class="form-group">
+				<label for="urlexemple" class="col-lg-1 control-label">URL da Image:</label>
+				<div class="col-lg-5">
+					{{ form.photo_game(size=80, class='form-control', placeholder='Enter url image') }}<br>
+          		</div>
+			</div>
+		</div>
 		
-		<p>
-			description: {{ form.description(size=1000) }}<br>
-			{% for error in form.description.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-
-		<p>
-			Price: {{ form.price(size=10) }}<br>
-			{% for error in form.price.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-
+		<div class="row">
+			<div class="form-group">
+				<label for="urlexemple" class="col-lg-1 control-label">Nome</label> 
+				<div class="col-lg-5">
+			 		{{ form.name(size=50, class='form-control', placeholder='Enter your name') }}<br>
+				</div>
+			</div>
+		</div>
 		
+		<div class="row">
+			<div class="form-group">
+				<label for="urlexemple" class="col-lg-1 control-label">Descrição</label> 
+				<div class="col-lg-5">	
+					{{ form.description(size=1000, class='form-control') }}<br>
+          		</div>
+			</div>
+		</div>
 
-		<p><input type="submit" value="addGame"></p>
+		<div class="row">
+			<div class="form-group">
+				<label for="urlexemple" class="col-lg-1 control-label" >Total TGCoins</label>
+				<div class="col-lg-1"> 
+			 		{{ form.price(size=10, class='form-control') }}<br>
+					{% for error in form.price.errors %}
+            			<span style="color: red;">[{{ error }}]</span>
+          			{% endfor %}<br>
+          		</div>
+			</div>
+		</div>
+		
+		<button type="submit" class="btn btn-default">Adicionar Jogo</button>
+		
 	</form>
+
+
+
 {% endblock %}
