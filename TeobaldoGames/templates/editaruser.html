@@ -46,9 +46,11 @@
 		{{ form.name(size=50, value= g.user.name, class='form-control' )}}
 		<label>Email</label>
 		{{ form.email(size=50, value= g.user.email , class='form-control')}}
-			{% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
+			<ul>
+          {% for error in form.email.errors %}
+                  <li class="list-group-item list-group-item-danger">{{ error }} </li>
+                {% endfor %}<br>
+                </ul>
 		<button class="btn btn-lg btn-primary btn-block" type="submit">Atualizar</button>
 	</form>
 {% endblock %}
