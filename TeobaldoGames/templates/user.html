@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li class="list-group-item list-group-item-success">{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 		<div class='user'>
     <div class="row featurette">
        <div class="col-md-5">
