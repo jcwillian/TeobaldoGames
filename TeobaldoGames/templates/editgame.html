@@ -1,45 +1,68 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h1>Cadastro Game</h1>
-	<form action="" method="post" name="addGame" enctype="multipart/form-data">
-		{{ form.hidden_tag() }}
+<style type="text/css">
 
-		{% if game.photo %}
-         <img class="img-circle" src="{{ game.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-    {% else %}
-        <img class="img-circle" src="http://i.imgur.com/6fy9Lw0.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
-    {% endif%}
-		<p>
-			URL Image: {{ form.photo_game(size=80) }}<br>
-			{% for error in form.photo_game.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-
-		<p>
-			Name: {{ form.name(size=50, value = game.name) }}<br>
-			{% for error in form.name.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-
+.form-signin {
+  max-width: 450px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin {
+  margin-bottom: 30px;
+}
+.form-signin {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+</style>
 		
-		<p>
-			description: {{ form.description(size=1000, value = game.description) }}<br>
-			{% for error in form.description.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}<br>
-		</p>
-
-		<p>
-			Price: {{ form.price(size=10, value=game.price) }}<br>
+		
+	<form class="form-signin" method="post" name="addGame" enctype="multipart/form-data">
+		{{ form.hidden_tag() }}
+		<h2 class="form-signin-heading">Atualizar dados do Game</h2>
+		<label>Foto atual</label>
+		{% if game.photo %}
+         	<img class="img-circle" src="{{ game.photo }}" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    	{% else %}
+        	<img class="img-circle" src="http://i.imgur.com/6fy9Lw0.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    	{% endif%}<br><br>
+		<label>Nova URL da Imagem</label>
+			{{ form.photo_game(size=80, class='form-control') }}			
+		<label>Nome</label>
+			{{ form.name(size=50, value = game.name, class='form-control',class='form-control') }}<br>
+		<label>Descrição</label>
+			{{ form.description(size=1000, placeholder = game.description, class='form-control') }}<br>
+		<label>Total TGCoins</label>
+			 
+			{{ form.price(size=10, value=game.price, class='form-control') }}<br>
 			{% for error in form.price.errors %}
             <span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
-		</p>
-		
+          	
 
-		<p><input type="submit" value="Atualize"></p>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Atualizar</button>
 	</form>
 {% endblock %}
