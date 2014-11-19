@@ -55,6 +55,7 @@ def login():
 	if form.validate_on_submit():
 		user = User.query.filter_by(nickname=str(form.nickname.data)).first()
 		if user == None:
+			flash('Usuario ou Senha incorretos.')
 			return render_template('login.html', 
 							title='Sign In',
 							form = form)
@@ -81,8 +82,9 @@ def singup():
 			db.session.add(user)
 			db.session.commit()
 		except:
-			print('Erro no banco de dados')
+			flash('Erro no cadastro Tente novamente')
 			return redirect(url_for('singup'))
+		login_user(user, remember=True)
 		return redirect(url_for('home'))
 	return render_template('cadastro.html', form=form)
 
@@ -121,7 +123,8 @@ def addgame():
 		
 		db.session.add(game)
 		db.session.commit()
-		return redirect(url_for('home'))
+		flash('%s adicionado com sucesso!' %(form.name.data))
+		return redirect(url_for('mylistgames'))
 	return render_template('addGame.html',
 							title = 'Add Game',
 							form = form)
@@ -140,7 +143,6 @@ def game(name = None, id = None):
 	if request.method == 'POST':
 		word = request.form['search']
 		games = Game.query.filter(Game.name.contains(word)).all()
-		#games = Game.query.filter_by(name=word).all()
 	else:
 		if name and id:
 			game = Game.query.get(id)
@@ -171,34 +173,6 @@ def criardetonado():
 		return redirect(url_for('home'))
 	return render_template('criardetonado.html', title='Criar Detonado', form=form)
 
-@app.route('/image', methods=['GET', 'POST'])
-def image():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form action="" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-    '''
-@app.route('/media/<path:filename>')
-def media(filename):
-    print send_from_directory('static', 'uploads_images/' + filename)
-    return 'asdf'
-
-@app.route('/searchgame', methods=['POST'])
-def searchgame():
-	form = SearchForm()
-	print('from')
-	return form
 
 @app.route('/buy/<int:id>')
 def buy(id = None):
@@ -233,9 +207,11 @@ def buy(id = None):
 				db.session.add(items)
 				db.session.commit()
 			else:
+				flash('Quantidade de TGCoins insuficiente!')
 				return redirect(url_for('home'))
 		else:
 			return redirect(url_for('home'))
+	flash('%s foi comprado com sucesso!', game.name)
 	return redirect(url_for('mylistgames'))
 
 @app.route('/addcoin', methods=['GET', 'POST'])
@@ -246,6 +222,7 @@ def addcoin():
 		g.user.coin += qtd_coin
 		db.session.add(g.user)
 		db.session.commit()
+		flash('%d TGCoins foram adicionado em seu perfil')
 		return redirect(url_for('user', nickname=g.user.nickname, id=g.user.id))
 	return render_template('addcoin.html', form=form, title='Add coin')
 
@@ -257,6 +234,7 @@ def editeperfil():
 		g.user.email = form.email.data;
 		db.session.add(g.user)
 		db.session.commit()
+		flash('Perfil atualizado com sucesso!')
 		return redirect(url_for('user', nickname=g.user.nickname, id=g.user.id))
 	return render_template('editaruser.html', form=form, title='Edite Perfil')
 
@@ -268,6 +246,7 @@ def editephoto():
 			g.user.photo = form.photo.data
 			db.session.add(g.user)
 			db.session.commit()
+			flask('Foto atualizada com sucesso')
 			return redirect(url_for('user', nickname=g.user.nickname, id = g.user.id))
 	return render_template('editphoto.html', form=form, title='Edite photo')	
 
@@ -285,6 +264,7 @@ def editgame(id = None):
 							
 			db.session.add(game)
 			db.session.commit()
+			flask('Jogo atualizado com sucesso!')
 			return redirect(url_for('mylistgames'))
 
 		return render_template('editgame.html', title='edit Game', form=form, game=game)
@@ -297,15 +277,9 @@ def deletegame(id = None):
 		game = Game.query.get(id)
 		db.session.delete(game)
 		db.session.commit()
+		flask('Jogo deletado com sucesso')
 		return redirect(url_for('mylistgames'))
 	return redirect(url_for('home'))
-
-def photoname(nickname, photoname):
-	number = str(randint(9999999999999999999,999999999999999999999999999999999999999999999))
-	string = list(number + nickname)
-	shuffle(string)
-	ponto = photoname.find('.')
-	return ''.join(string) + photoname[ponto:] 
 
 
 def jogoscomprados(user):
