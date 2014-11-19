@@ -36,9 +36,11 @@
 				<label for="urlexemple" class="col-lg-1 control-label" >Total TGCoins</label>
 				<div class="col-lg-1"> 
 			 		{{ form.price(size=10, class='form-control') }}<br>
+					<ul>
 					{% for error in form.price.errors %}
-            			<span style="color: red;">[{{ error }}]</span>
+            			<li class="list-group-item list-group-item-danger">{{ error }} </li>
           			{% endfor %}<br>
+          			</ul>
           		</div>
 			</div>
 		</div>
